@@ -24,7 +24,7 @@ This repository will only be active as long as the official component does not s
 
 Somewhere in your project (e.g. `main.ts`):
 ```
-import { defineCustomElements } from '@teamhive/pdf-viewer/dist/loader';
+import { defineCustomElements } from 'pdf-viewer-st/dist/loader';
 defineCustomElements(window);
 ```
 
@@ -41,7 +41,7 @@ Add viewer assets to `angular.json` assets block:
                         "assets": [
                             {
                                 "glob": "**/*",
-                                "input": "node_modules/@teamhive/pdf-viewer/dist/pdf-viewer/pdf-viewer-assets",
+                                "input": "node_modules/pdf-viewer-st/dist/pdf-viewer/pdf-viewer-assets",
                                 "output": "pdf-viewer-assets"
                             }
 ```
