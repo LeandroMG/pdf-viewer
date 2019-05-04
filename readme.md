@@ -4,6 +4,8 @@
 
 This web component allows you to add PDF rendering support to your web applications.
 
+This repository will only be active as long as the official component does not support text selection within the PDF document.
+
 ## Features
 - Rendering PDFs on web (Angular, Ionic, React, Stencil, etc.)
 - Search
@@ -58,6 +60,7 @@ Follow the [Stencil JS Framework Integration](https://stenciljs.com/docs/overvie
 :---:|:---:
 |`onLinkClick(href: string)`|Emits the `href` clicked when it's not an internal document annotation.|
 |`pageChange(currentPage: number)`|Emits the current page number when the current page changes.|
+|`selectedText(string: text)`|Emits the current selected text by user.|
 
 ---
 

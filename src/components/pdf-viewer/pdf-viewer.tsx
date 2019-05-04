@@ -69,6 +69,7 @@ export class PdfViewer {
 
     @Event() pageChange: EventEmitter<number>;
     @Event() onLinkClick: EventEmitter<string>;
+    @Event() selectedText: EventEmitter<string>;
 
     @Method()
     print() {
@@ -138,6 +139,8 @@ export class PdfViewer {
         this.viewerContainer = this.iframeEl.contentDocument.body.querySelector('#viewerContainer')
         this.viewerContainer.addEventListener('pagechange', this.handlePageChange.bind(this));
         this.viewerContainer.addEventListener('click', this.handleLinkClick.bind(this));
+        this.viewerContainer.addEventListener('mouseup', this.handleMouseUp.bind(this));
+        this.iframeEl.contentDocument.addEventListener('selectionchange', () => {});
 
         // when the documents within the pdf viewer finish loading
         this.iframeEl.contentDocument.addEventListener('pagesloaded', () => {
@@ -162,6 +165,15 @@ export class PdfViewer {
             const href = (e.target as any).closest('.linkAnnotation > a').href || '';
             this.onLinkClick.emit(href);
         }
+    }
+
+    handleMouseUp() {
+        const selection = this.iframeEl.contentDocument.getSelection();
+        // If the new selection is empty then there's no new selection event to emit.
+        if (!selection.rangeCount || !selection.toString()) {
+            return;
+        }
+        this.selectedText.emit(selection.toString());
     }
 
     render() {
