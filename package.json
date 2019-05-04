@@ -1,5 +1,5 @@
 {
-    "name": "@teamhive/pdf-viewer",
+    "name": "@teamhive/pdf-viewer-selectedtext",
     "version": "2.3.0",
     "description": "PDF Viewer Web Component. Built with stencil and pdfjs.",
     "homepage": "https://github.com/TeamHive/pdf-viewer",
