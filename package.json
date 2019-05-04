@@ -1,6 +1,6 @@
 {
-    "name": "@teamhive/pdf-viewer-selectedtext",
-    "version": "2.3.0",
+    "name": "pdf-viewer-st",
+    "version": "2.3.1",
     "description": "PDF Viewer Web Component. Built with stencil and pdfjs.",
     "homepage": "https://github.com/TeamHive/pdf-viewer",
     "repository": {
