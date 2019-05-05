@@ -13,6 +13,7 @@ This repository will only be active as long as the official component does not s
 - Search
 - Fit to Page / Fit to Width
 - Side panel for quick thumbnail navigation
+- Text selection
 
 ## Installation
 - `npm i pdf-viewer-st`
@@ -62,7 +63,7 @@ Follow the [Stencil JS Framework Integration](https://stenciljs.com/docs/overvie
 :---:|:---:
 |`onLinkClick(href: string)`|Emits the `href` clicked when it's not an internal document annotation.|
 |`pageChange(currentPage: number)`|Emits the current page number when the current page changes.|
-|`selectedText(string: text)`|Emits the current selected text by user.|
+|`selectedText(selection: Selection)`|Emits the current selection by user.|
 
 ---
 

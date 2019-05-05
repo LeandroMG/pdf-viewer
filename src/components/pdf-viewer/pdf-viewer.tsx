@@ -69,7 +69,7 @@ export class PdfViewer {
 
     @Event() pageChange: EventEmitter<number>;
     @Event() onLinkClick: EventEmitter<string>;
-    @Event() selectedText: EventEmitter<string>;
+    @Event() selectedText: EventEmitter<Selection>;
 
     @Method()
     print() {
@@ -95,6 +95,14 @@ export class PdfViewer {
         if (contentWindow && contentWindow.PDFViewerApplication) {
             const { pdfViewer } = (this.iframeEl.contentWindow as any).PDFViewerApplication;
             pdfViewer.currentScaleValue = scale;
+        }
+    }
+
+    @Method()
+    clearSelection() {
+        const document = this.iframeEl.contentDocument;
+        if (document && document.getSelection()) {
+            document.getSelection().removeAllRanges();
         }
     }
 
@@ -169,11 +177,11 @@ export class PdfViewer {
 
     handleMouseUp() {
         const selection = this.iframeEl.contentDocument.getSelection();
-        // If the new selection is empty then there's no new selection event to emit.
+        // If the selection is empty then there's no new selection event to emit.
         if (!selection.rangeCount || !selection.toString()) {
             return;
         }
-        this.selectedText.emit(selection.toString());
+        this.selectedText.emit(selection);
     }
 
     render() {
