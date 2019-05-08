@@ -1,13 +1,14 @@
 {
     "name": "pdf-viewer-st",
-    "version": "2.3.2",
+    "version": "2.3.3",
     "description": "PDF Viewer Web Component. Built with stencil and pdfjs.",
-    "homepage": "https://github.com/TeamHive/pdf-viewer",
+    "homepage": "https://github.com/LeandroMG/pdf-viewer",
     "repository": {
         "type": "git",
         "url": "github:TeamHive/pdf-viewer"
     },
     "author": "TeamHive",
+    "keywords": ["pdf", "pdf-viewer", "text"],
     "module": "dist/esm/index.js",
     "main": "dist/index.js",
     "unpkg": "dist/pdf-viewer.js",
