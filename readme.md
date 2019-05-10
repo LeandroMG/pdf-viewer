@@ -6,7 +6,7 @@ This web component allows you to add PDF rendering support to your web applicati
 
 Forked from: [@teamhive/pdf-viewer](https://github.com/TeamHive/pdf-viewer).
 
-Up to date 2.3.0
+Up to date 2.3.0.
 
 This repository will only be active as long as the official component does not support text selection within the PDF document.
 
@@ -16,6 +16,7 @@ This repository will only be active as long as the official component does not s
 - Fit to Page / Fit to Width
 - Side panel for quick thumbnail navigation
 - Text selection
+- Swipe events (left/right) to show/hide the side drawer
 
 ## Installation
 
@@ -60,6 +61,7 @@ Follow the [Stencil JS Framework Integration](https://stenciljs.com/docs/overvie
 |`enableToolbar`|`true`|If the toolbar is available for display.|
 |`enableSideDrawer`|`true`|If the side drawer UI (and button) is available for display.|
 |`enableSearch`|`true`|If the document can be searched through. Hides the button when false.|
+|`enableSwipe`|`true`|If swipe events (left/right) are recognise to show/hide the side drawer.|
 
 ### Events
 |Event|Description|

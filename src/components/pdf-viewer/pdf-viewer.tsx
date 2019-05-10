@@ -1,5 +1,7 @@
 import { Component, Prop, Element, Event, EventEmitter, Watch, Method, State } from '@stencil/core';
 
+import Hammer from 'hammerjs';
+
 @Component({
     tag: 'hive-pdf-viewer',
     styleUrl: 'pdf-viewer.scss',
@@ -15,6 +17,7 @@ export class PdfViewer {
         '--pdf-viewer-top-offset',
         '--pdf-viewer-bottom-offset'
     ];
+    hammer: Hammer;
     iframeEl: HTMLIFrameElement;
     searchToggleEl: HTMLElement;
     sidebarToggleEl: HTMLElement;
@@ -30,6 +33,7 @@ export class PdfViewer {
      * State variables.
      */
     @State() iframeLoaded: boolean;
+    @State() sidebarVisible: boolean;
 
     /**
      * Public Property API.
@@ -90,11 +94,28 @@ export class PdfViewer {
         this.setScale(this.scale);
     }
 
+    @Prop() enableSwipe = true;
+
+    @Watch('enableSwipe')
+    enableSwipeChanged() {
+        if (this.hammer) {
+            if (this.enableSwipe) {
+                this.hammer.on('swipeleft', this.handleSwipe.bind(this));
+                this.hammer.on('swiperight', this.handleSwipe.bind(this));
+                this.hammer.on('tap', this.handleTap.bind(this));
+            } else {
+                this.hammer.off('swipeleft', this.handleSwipe.bind(this));
+                this.hammer.off('swiperight', this.handleSwipe.bind(this));
+                this.hammer.off('tap', this.handleTap.bind(this));
+            }
+        }
+    }
+
     /**
      * Events section
      */
-    @Event() pageChange: EventEmitter<number>;
     @Event() onLinkClick: EventEmitter<string>;
+    @Event() pageChange: EventEmitter<number>;
     @Event() selectedText: EventEmitter<Selection>;
 
     /**
@@ -103,7 +124,7 @@ export class PdfViewer {
     componentDidLoad() {
         this.iframeEl.onload = () => {
             this.setCSSVariables();
-            this.initButtonVisibility();
+            this.init();
             this.addEventListeners();
             this.iframeLoaded = true;
         }
@@ -162,17 +183,20 @@ export class PdfViewer {
         }
     }
 
-    initButtonVisibility() {
-        this.toolbarEl = this.iframeEl.contentDocument.body.querySelector('#toolbarContainer');
-        this.sidebarToggleEl = this.iframeEl.contentDocument.body.querySelector('#sidebarToggle');
-        this.searchToggleEl = this.iframeEl.contentDocument.body.querySelector('#viewFind');
+    init() {
+        const documentBody = this.iframeEl.contentDocument.body;
+        this.viewerContainer = documentBody.querySelector('#viewerContainer');
+        this.toolbarEl = documentBody.querySelector('#toolbarContainer');
+        this.sidebarToggleEl = documentBody.querySelector('#sidebarToggle');
+        this.searchToggleEl = documentBody.querySelector('#viewFind');
+        this.hammer = new Hammer(this.viewerContainer);
         this.updateToolbarVisibility();
         this.updateSideDrawerVisibility();
         this.updateSearchVisibility();
+        this.enableSwipeChanged();
     }
 
     addEventListeners() {
-        this.viewerContainer = this.iframeEl.contentDocument.body.querySelector('#viewerContainer')
         this.viewerContainer.addEventListener('pagechange', this.handlePageChange.bind(this));
         this.viewerContainer.addEventListener('click', this.handleLinkClick.bind(this));
         this.viewerContainer.addEventListener('mouseup', this.handleMouseUp.bind(this));
@@ -184,6 +208,11 @@ export class PdfViewer {
                 this.setScale(this.scale);
             }
         });
+
+        // Controls the sidebar status to support a coherent swipe behaviour
+        this.sidebarToggleEl.addEventListener('click', () => {
+            this.sidebarVisible = !this.sidebarVisible;
+        })
     }
 
     handlePageChange(e: any) {
@@ -210,6 +239,18 @@ export class PdfViewer {
             return;
         }
         this.selectedText.emit(selection);
+    }
+
+    handleSwipe() {
+        if (this.sidebarToggleEl && this.enableSideDrawer) {
+            this.sidebarToggleEl.click();
+        }
+    }
+
+    handleTap() {
+        if (this.sidebarVisible) {
+            this.handleSwipe();
+        }
     }
 
     /**
