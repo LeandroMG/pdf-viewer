@@ -8,21 +8,39 @@ import { Component, Prop, Element, Event, EventEmitter, Watch, Method, State } f
 })
 export class PdfViewer {
 
+    /**
+     * Own properties.
+     */
     static CSSVariables = [
         '--pdf-viewer-top-offset',
         '--pdf-viewer-bottom-offset'
     ];
+    iframeEl: HTMLIFrameElement;
+    searchToggleEl: HTMLElement;
+    sidebarToggleEl: HTMLElement;
+    toolbarEl: HTMLElement;
+    viewerContainer: HTMLElement;
 
+    /**
+     * Reference to host HTML element.
+     */
     @Element() element: HTMLElement;
 
+    /**
+     * State variables.
+     */
+    @State() iframeLoaded: boolean;
+
+    /**
+     * Public Property API.
+     */
+    @Prop() page: number;
     @Prop({ context: 'resourcesUrl' }) resourcesUrl: string;
+    @Prop() src: string;
     @Prop({ context: 'window' }) window: Window;
 
-    @Prop() src: string;
-    @Prop() page: number;
-
+    // Property lifecycle events.
     @Prop() enableToolbar = true;
-    toolbarEl: HTMLElement;
 
     @Watch('enableToolbar')
     updateToolbarVisibility() {
@@ -38,7 +56,6 @@ export class PdfViewer {
     }
 
     @Prop() enableSideDrawer = true;
-    sidebarToggleEl: HTMLElement;
 
     @Watch('enableSideDrawer')
     updateSideDrawerVisibility() {
@@ -53,7 +70,6 @@ export class PdfViewer {
     }
 
     @Prop() enableSearch = true;
-    searchToggleEl: HTMLElement;
 
     @Watch('enableSearch')
     updateSearchVisibility() {
@@ -67,10 +83,40 @@ export class PdfViewer {
         }
     }
 
+    @Prop() scale: 'auto' | 'page-fit' | 'page-width' | number;
+
+    @Watch('scale')
+    updateScale() {
+        this.setScale(this.scale);
+    }
+
+    /**
+     * Events section
+     */
     @Event() pageChange: EventEmitter<number>;
     @Event() onLinkClick: EventEmitter<string>;
     @Event() selectedText: EventEmitter<Selection>;
 
+    /**
+     * Events section.
+     */
+    componentDidLoad() {
+        this.iframeEl.onload = () => {
+            this.setCSSVariables();
+            this.initButtonVisibility();
+            this.addEventListeners();
+            this.iframeLoaded = true;
+        }
+    }
+
+    /**
+     * Listeners.
+     */
+    // In this case, events come from iframe. See addEventListeners() method.
+
+    /**
+     * Public methods API.
+     */
     @Method()
     print() {
         return new Promise<void>((resolve) => {
@@ -79,13 +125,6 @@ export class PdfViewer {
                 resolve();
             }, { once: true })
         })
-    }
-
-    @Prop() scale: 'auto' | 'page-fit' | 'page-width' | number;
-
-    @Watch('scale')
-    updateScale() {
-        this.setScale(this.scale);
     }
 
     @Method()
@@ -106,25 +145,14 @@ export class PdfViewer {
         }
     }
 
-    iframeEl: HTMLIFrameElement;
-    viewerContainer: HTMLElement;
-
-    @State() iframeLoaded: boolean;
-
+    /**
+     * Local methods.
+     */
     get viewerSrc() {
         if (this.page) {
             return `${this.resourcesUrl}pdf-viewer-assets/viewer/web/viewer.html?file=${encodeURIComponent(this.src)}#page=${this.page}`;
         }
         return `${this.resourcesUrl}pdf-viewer-assets/viewer/web/viewer.html?file=${encodeURIComponent(this.src)}`;
-    }
-
-    componentDidLoad() {
-        this.iframeEl.onload = () => {
-            this.setCSSVariables();
-            this.initButtonVisibility();
-            this.addEventListeners();
-            this.iframeLoaded = true;
-        }
     }
 
     setCSSVariables() {
@@ -184,8 +212,10 @@ export class PdfViewer {
         this.selectedText.emit(selection);
     }
 
+    /**
+     * render() function.
+     */
     render() {
         return <iframe class={this.iframeLoaded ? 'loaded' : ''} ref={(el) => this.iframeEl = el as HTMLIFrameElement} src={this.viewerSrc}></iframe>;
     }
-
 }
