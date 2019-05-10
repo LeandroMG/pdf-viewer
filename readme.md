@@ -6,6 +6,8 @@ This web component allows you to add PDF rendering support to your web applicati
 
 Forked from: [@teamhive/pdf-viewer](https://github.com/TeamHive/pdf-viewer).
 
+Up to date 2.3.0
+
 This repository will only be active as long as the official component does not support text selection within the PDF document.
 
 ## Features
