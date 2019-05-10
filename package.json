@@ -1,6 +1,6 @@
 {
     "name": "pdf-viewer-st",
-    "version": "2.3.3",
+    "version": "2.5.0",
     "description": "PDF Viewer Web Component. Built with stencil and pdfjs.",
     "homepage": "https://github.com/LeandroMG/pdf-viewer",
     "repository": {
