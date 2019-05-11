@@ -201,6 +201,8 @@ export class PdfViewer {
         this.viewerContainer.addEventListener('click', this.handleLinkClick.bind(this));
         this.viewerContainer.addEventListener('mouseup', this.handleMouseUp.bind(this));
         this.iframeEl.contentDocument.addEventListener('selectionchange', () => {});
+        // Workaround to support text selection on mobile devices
+        this.viewerContainer.addEventListener('contextmenu', this.handleMouseUp.bind(this));
 
         // when the documents within the pdf viewer finish loading
         this.iframeEl.contentDocument.addEventListener('pagesloaded', () => {
