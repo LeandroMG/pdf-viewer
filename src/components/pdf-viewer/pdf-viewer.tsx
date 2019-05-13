@@ -1,6 +1,7 @@
 import { Component, Prop, Element, Event, EventEmitter, Watch, Method, State } from '@stencil/core';
 
 import Hammer from 'hammerjs';
+delete Hammer.defaults.cssProps.userSelect;
 
 @Component({
     tag: 'hive-pdf-viewer',
