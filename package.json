@@ -1,6 +1,6 @@
 {
     "name": "pdf-viewer-st",
-    "version": "2.5.1",
+    "version": "2.6.0",
     "description": "PDF Viewer Web Component. Built with stencil and pdfjs.",
     "homepage": "https://github.com/LeandroMG/pdf-viewer",
     "repository": {
@@ -29,9 +29,7 @@
         "pdf.js:build": "cd pdf.js && gulp generic",
         "prepublishOnly": "npm run build"
     },
-    "dependencies": {
-        "hammerjs": "^2.0.8"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@stencil/core": "0.17.0",
         "@stencil/sass": "^0.2.1",

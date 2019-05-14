@@ -13,6 +13,7 @@ iframe {
     height: 100%;
     border: none;
     visibility: hidden;
+    touch-action: none;
     &.loaded {
         visibility: visible;
     }

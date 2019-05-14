@@ -17,6 +17,7 @@ This repository will only be active as long as the official component does not s
 - Side panel for quick thumbnail navigation
 - Text selection
 - Swipe events (left/right) to show/hide the side drawer
+- Pinch events (in/out) to performs zoom in/out in the document
 
 ## Installation
 
@@ -62,6 +63,7 @@ Follow the [Stencil JS Framework Integration](https://stenciljs.com/docs/overvie
 |`enableSideDrawer`|`true`|If the side drawer UI (and button) is available for display.|
 |`enableSearch`|`true`|If the document can be searched through. Hides the button when false.|
 |`enableSwipe`|`true`|If swipe events (left/right) are recognise to show/hide the side drawer.|
+|`enablePinch`|`true`|If pinch events (in/out) are recognise to performs zoom in/out.|
 
 ### Events
 |Event|Description|

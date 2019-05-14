@@ -1,7 +1,6 @@
 import { Component, Prop, Element, Event, EventEmitter, Watch, Method, State } from '@stencil/core';
 
-import Hammer from 'hammerjs';
-delete Hammer.defaults.cssProps.userSelect;
+import GestureDetector from './pdf-viewer-assets/gestures.js';
 
 @Component({
     tag: 'hive-pdf-viewer',
@@ -18,12 +17,14 @@ export class PdfViewer {
         '--pdf-viewer-top-offset',
         '--pdf-viewer-bottom-offset'
     ];
-    hammer: Hammer;
+    gestures: GestureDetector;
     iframeEl: HTMLIFrameElement;
     searchToggleEl: HTMLElement;
     sidebarToggleEl: HTMLElement;
     toolbarEl: HTMLElement;
     viewerContainer: HTMLElement;
+    zoomIn: HTMLElement;
+    zoomOut: HTMLElement;
 
     /**
      * Reference to host HTML element.
@@ -99,15 +100,28 @@ export class PdfViewer {
 
     @Watch('enableSwipe')
     enableSwipeChanged() {
-        if (this.hammer) {
+        if (this.gestures) {
             if (this.enableSwipe) {
-                this.hammer.on('swipeleft', this.handleSwipe.bind(this));
-                this.hammer.on('swiperight', this.handleSwipe.bind(this));
-                this.hammer.on('tap', this.handleTap.bind(this));
+                this.gestures.on('swipeleft', this.handleSwipeLeft.bind(this));
+                this.gestures.on('swiperight', this.handleSwipeRight.bind(this));
             } else {
-                this.hammer.off('swipeleft', this.handleSwipe.bind(this));
-                this.hammer.off('swiperight', this.handleSwipe.bind(this));
-                this.hammer.off('tap', this.handleTap.bind(this));
+                this.gestures.off('swipeleft', this.handleSwipeLeft.bind(this));
+                this.gestures.off('swiperight', this.handleSwipeRight.bind(this));
+            }
+        }
+    }
+
+    @Prop() enablePinch = true;
+
+    @Watch('enablePinch')
+    enablePinchChanged() {
+        if (this.gestures) {
+            if (this.enablePinch) {
+                this.gestures.on('pinchin', this.handlePinchIn.bind(this));
+                this.gestures.on('pinchout', this.handlePinchOut.bind(this));
+            } else {
+                this.gestures.off('pinchin', this.handlePinchIn.bind(this));
+                this.gestures.off('pinchout', this.handlePinchOut.bind(this));
             }
         }
     }
@@ -120,7 +134,7 @@ export class PdfViewer {
     @Event() selectedText: EventEmitter<Selection>;
 
     /**
-     * Events section.
+     * Lifecycle events section.
      */
     componentDidLoad() {
         this.iframeEl.onload = () => {
@@ -190,11 +204,14 @@ export class PdfViewer {
         this.toolbarEl = documentBody.querySelector('#toolbarContainer');
         this.sidebarToggleEl = documentBody.querySelector('#sidebarToggle');
         this.searchToggleEl = documentBody.querySelector('#viewFind');
-        this.hammer = new Hammer(this.viewerContainer);
+        this.zoomIn = documentBody.querySelector('#zoomIn');
+        this.zoomOut = documentBody.querySelector('#zoomOut');
+        this.gestures = new GestureDetector(this.viewerContainer);
         this.updateToolbarVisibility();
         this.updateSideDrawerVisibility();
         this.updateSearchVisibility();
         this.enableSwipeChanged();
+        this.enablePinchChanged();
     }
 
     addEventListeners() {
@@ -236,6 +253,10 @@ export class PdfViewer {
     }
 
     handleMouseUp() {
+        // Hide side drawer if it is visible
+        this.handleSwipeRight();
+
+        // Manage selection
         const selection = this.iframeEl.contentDocument.getSelection();
         // If the selection is empty then there's no new selection event to emit.
         if (!selection.rangeCount || !selection.toString()) {
@@ -244,16 +265,26 @@ export class PdfViewer {
         this.selectedText.emit(selection);
     }
 
-    handleSwipe() {
+    handleSwipeLeft() {
         if (this.sidebarToggleEl && this.enableSideDrawer) {
             this.sidebarToggleEl.click();
         }
     }
 
-    handleTap() {
+    handleSwipeRight() {
         if (this.sidebarVisible) {
-            this.handleSwipe();
+            if (this.sidebarToggleEl && this.enableSideDrawer) {
+                this.sidebarToggleEl.click();
+            }
         }
+    }
+
+    handlePinchIn() {
+        this.zoomOut.click();
+    }
+
+    handlePinchOut() {
+        this.zoomIn.click();
     }
 
     /**
