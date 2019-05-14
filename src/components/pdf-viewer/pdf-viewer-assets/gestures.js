@@ -14,15 +14,13 @@ export default class GestureDetector {
     this.events = { // Events availables
       pinchin: [],
       pinchout: [],
-      swipedown: [],
       swipeleft: [],
       swiperight: [],
-      swipeup: [],
     };
     this.options = {
       swipeDistance: 8,
     };
-    this.pinchName = undefined;
+    this.pinchEvent = undefined;
     this.prevDiff = -1;
     this.startSwipe = {};
 
@@ -55,9 +53,9 @@ export default class GestureDetector {
         );
         if(this.prevDiff > 0) {
           if(curDiff > this.prevDiff) {
-            this.pinchName  = 'pinchout';
+            this.pinchEvent  = 'pinchout';
           } else if(curDiff < this.prevDiff) {
-            this.pinchName  = 'pinchin';
+            this.pinchEvent  = 'pinchin';
           }
         }
 
@@ -83,8 +81,8 @@ export default class GestureDetector {
       }
 
       // Trigger ends
-      if(this.pinchName) {
-        this.trigger(this.pinchName, event);
+      if(this.pinchEvent) {
+        this.trigger(this.pinchEvent, event);
       }
 
       // Clear
@@ -104,8 +102,7 @@ export default class GestureDetector {
     this.clear = () => {
       this.endSwipe = {};
       this.fingers = 0;
-      this.hasPinch = false;
-      this.pinchName = undefined;
+      this.pinchEvent = undefined;
       this.prevDiff = -1;
       this.startSwipe = {};
     };
