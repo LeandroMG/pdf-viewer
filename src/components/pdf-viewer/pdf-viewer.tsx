@@ -273,9 +273,7 @@ export class PdfViewer {
 
     handleSwipeRight() {
         if (this.sidebarVisible) {
-            if (this.sidebarToggleEl && this.enableSideDrawer) {
-                this.sidebarToggleEl.click();
-            }
+            this.handleSwipeLeft();
         }
     }
 
