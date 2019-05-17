@@ -8,9 +8,10 @@ Forked from: [@teamhive/pdf-viewer](https://github.com/TeamHive/pdf-viewer).
 
 Up to date 2.3.0.
 
-This repository will only be active as long as the official component does not support text selection within the PDF document.
+This repository will only be active as long as the official component does not support these new features.
 
 ## Features
+
 - Rendering PDFs on web (Angular, Ionic, React, Stencil, etc.)
 - Search
 - Fit to Page / Fit to Width
@@ -24,12 +25,14 @@ This repository will only be active as long as the official component does not s
 - `npm i pdf-viewer-st`
 
 ## Usage
-```
+
+```javascript
 <hive-pdf-viewer src="http://www.mydomain.com/example.pdf"></hive-pdf-viewer>
 ```
 
 Somewhere in your project (e.g. `main.ts`):
-```
+
+```javascript
 import { defineCustomElements } from 'pdf-viewer-st/dist/loader';
 defineCustomElements(window);
 ```
@@ -37,7 +40,8 @@ defineCustomElements(window);
 ### Angular
 
 Add viewer assets to `angular.json` assets block:
-```
+
+```javascript
 {
     "projects": {
         "app": {
@@ -55,6 +59,7 @@ Add viewer assets to `angular.json` assets block:
 Follow the [Stencil JS Framework Integration](https://stenciljs.com/docs/overview) guide for more info.
 
 ## Properties
+
 |Property|Default|Description
 :---:|:---:|:---:
 |`src`||The PDF web address location (http, https)|
@@ -66,6 +71,7 @@ Follow the [Stencil JS Framework Integration](https://stenciljs.com/docs/overvie
 |`enablePinch`|`true`|If pinch events (in/out) are recognise to performs zoom in/out.|
 
 ### Events
+
 |Event|Description|
 :---:|:---:
 |`onLinkClick(href: string)`|Emits the `href` clicked when it's not an internal document annotation.|
