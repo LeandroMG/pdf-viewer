@@ -6,7 +6,7 @@ This web component allows you to add PDF rendering support to your web applicati
 
 Forked from: [@teamhive/pdf-viewer](https://github.com/TeamHive/pdf-viewer).
 
-Up to date 2.3.0.
+Up to date 2.4.0.
 
 This repository will only be active as long as the official component does not support these new features.
 
@@ -67,6 +67,7 @@ Follow the [Stencil JS Framework Integration](https://stenciljs.com/docs/overvie
 |`enableToolbar`|`true`|If the toolbar is available for display.|
 |`enableSideDrawer`|`true`|If the side drawer UI (and button) is available for display.|
 |`enableSearch`|`true`|If the document can be searched through. Hides the button when false.|
+|`disableScrolling`|`false`|Disables scrolling in the document.|
 |`enableSwipe`|`true`|If swipe events (left/right) are recognise to show/hide the side drawer.|
 |`enablePinch`|`true`|If pinch events (in/out) are recognise to performs zoom in/out.|
 
