@@ -61,6 +61,22 @@ export class PdfViewer {
         }
     }
 
+    @Prop() disableScrolling = false;
+
+    @Watch('disableScrolling')
+    updateScrolling() {
+        if (this.viewerContainer) {
+            if (this.disableScrolling) {
+                this.viewerContainer.style.pointerEvents = 'none';
+                this.viewerContainer.style['WebkitOverflowScrolling'] = 'auto';
+            }
+            else {
+                this.viewerContainer.style.pointerEvents = '';
+                this.viewerContainer.style['WebkitOverflowScrolling'] = '';
+            }
+        }
+    }
+
     @Prop() enableSideDrawer = true;
 
     @Watch('enableSideDrawer')
@@ -210,6 +226,7 @@ export class PdfViewer {
         this.updateToolbarVisibility();
         this.updateSideDrawerVisibility();
         this.updateSearchVisibility();
+        this.updateScrolling();
         this.enableSwipeChanged();
         this.enablePinchChanged();
     }
