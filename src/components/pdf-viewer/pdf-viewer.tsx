@@ -67,12 +67,12 @@ export class PdfViewer {
     updateScrolling() {
         if (this.viewerContainer) {
             if (this.disableScrolling) {
-                this.viewerContainer.style.pointerEvents = 'none';
-                this.viewerContainer.style['WebkitOverflowScrolling'] = 'auto';
+                this.viewerContainer.style.overflow = 'hidden';
+                this.viewerContainer.style.position = 'fixed';
             }
             else {
-                this.viewerContainer.style.pointerEvents = '';
-                this.viewerContainer.style['WebkitOverflowScrolling'] = '';
+                this.viewerContainer.style.overflow = 'auto';
+                this.viewerContainer.style.position = 'absolute';
             }
         }
     }
