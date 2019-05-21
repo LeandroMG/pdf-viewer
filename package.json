@@ -31,7 +31,7 @@
     },
     "dependencies": {},
     "devDependencies": {
-        "@stencil/core": "0.17.0",
+        "@stencil/core": "0.18.1",
         "@stencil/sass": "^0.2.1",
         "ncp": "^2.0.0"
     },
